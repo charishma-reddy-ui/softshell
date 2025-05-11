@@ -2,27 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Wallet } from 'lucide-react';
 import Logo from './Logo';
 import AuthButtons from './AuthButtons';
-import axios from 'axios';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check if user is authenticated
+  // Check if user is authenticated using localStorage or another client-side method
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/user', {
-          withCredentials: true,
-        });
-        setIsAuthenticated(!!response.data);
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
+    // Using localStorage as a simple alternative
+    const token = localStorage.getItem('userToken');
+    setIsAuthenticated(!!token);
   }, []);
 
   const toggleMenu = () => {
@@ -51,7 +41,8 @@ const Header: React.FC = () => {
     if (isAuthenticated) {
       window.location.href = '/dashboard';
     } else {
-      window.location.href = 'http://localhost:3000/sign-in?redirect_url=http://localhost:5173/dashboard';
+      // Redirect to a static sign-in page or use a different auth approach
+      window.location.href = '/sign-in';
     }
   };
 

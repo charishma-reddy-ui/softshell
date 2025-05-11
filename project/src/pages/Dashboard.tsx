@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Header from '../components/Header';
 
 const Dashboard: React.FC = () => {
@@ -7,22 +6,19 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/user', {
-          withCredentials: true, // Important for sending cookies
-        });
-        
-        setUser(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        // If not authenticated, redirect to login
-        window.location.href = 'http://localhost:3000/sign-in?redirect_url=http://localhost:5173/dashboard';
-      }
-    };
-
-    fetchUserData();
+    // Simulate loading user data from localStorage
+    setTimeout(() => {
+      // Mock user data since we don't have a backend
+      const mockUser = {
+        name: 'Demo User',
+        email: 'demo@example.com',
+        company: 'SoftSell Demo',
+        licenseListings: []
+      };
+      
+      setUser(mockUser);
+      setLoading(false);
+    }, 1000);
   }, []);
 
   if (loading) {
@@ -40,7 +36,7 @@ const Dashboard: React.FC = () => {
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 mb-6">
           <h1 className="text-2xl font-bold mb-4">Welcome, {user?.name || 'User'}!</h1>
           <p className="text-gray-600 dark:text-gray-300">
-            You are now logged in to your InternCodeX account.
+            You are now viewing the SoftSell dashboard.
           </p>
           
           <div className="mt-6">
